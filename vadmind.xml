@@ -1,7 +1,7 @@
 <?xml version='1.0' standalone='yes'?>
 <config>
   <key>dea9fd78736357e4fbb49d1e0c485c4a</key>
-  <ip>127.0.0.2</ip>
+  <ip>127.0.0.3</ip>
   <listen>5</listen>
   <messages>
     <goodbye>Closing vadmind session.</goodbye>
