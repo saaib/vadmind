@@ -1,0 +1,218 @@
+#****h* VAdmind/QUERIES *
+# NAME
+#   QUERIES  -  Definition of queries exchanged between client-server
+#   	     	communication.
+# COPYRIGHT
+#   (c) Urivan Saaib. All rights reserverd.
+# DESCRIPTION
+#   This file describes the format and syntax of the valid XML queries
+#   exchanged between the client and the server.
+# AUTHOR
+#   Urivan Saaib <saaib@ciberlinux.net>
+# CREATION DATE
+#   12-Apr-2002
+# MODIFICATION HISTORY
+#   12-Apr-2002  - First Version.
+#   13-Apr-2002  - Some abstraction to the strings.
+#   15-Apr-2002  - A little bit of more abstraction.
+#   27-Sep-2003  - Improvement due to code changes.
+#   11-Dec-2003  - Some corrections here and there. Also made the text fit on
+#   		   80x25 text terminals.
+#   31-Jan-2006  - Include reference to the Discover.pm plugin.
+#   10-Jul-2006  - Update XML schema.
+# LICENSE
+#   This file is subject to the terms and conditions of the GNU
+#    General Public License.
+#***
+
+The XML queries exchanged must consist of 2 lines :
+
+A).- Header
+B).- Body
+
+NOTE: Both, Header and Body, should be sent as a single line of text.
+      We show here the XML in separated lines for better understanding only.
+
+
+-------------------------------------------------------------------------------
+A. HEADER STRING
+-------------------------------------------------------------------------------
+
+The HEADER string provides the authentication mechanism for VAdmind to
+succesfuly process the request to be made which are on the BODY string.
+
+The HEADER sintax is :
+<?xml version="1.0" ?><auth user="username" host="some.host.name" />
+
+Server reply should be something similar to :
+<?xml version="1.0" ?><auth result="resultvalue" />
+
+Where the 'resultvalue' should be either :
+- 320 (valid)
+- 321 (invalid)
+
+depending on the pair of data supplied to the daemon.
+
+Header Document Type Definition (DTD):
+
+<!DOCTYPE auth [
+    <!ELEMENT auth EMPTY>
+    <!ATTLIST auth user   CDATA #REQUIRED
+                   host   CDATA #REQUIRED
+                   result CDATA #REQUIRED> <!-- Only required when sending
+		   	  		   	response -->
+]>
+
+
+-------------------------------------------------------------------------------
+1. BODY STRING
+-------------------------------------------------------------------------------
+
+The BODY string provides all the information related to what plugin and
+functions to execute as well as the information that shoulw be passed on to
+the function.
+
+The BODY sintax is :
+<?xml version="1.0" ?>
+<modules>
+   <module name="modulename">
+      <task name="taskname" id="id_number">
+         PARAMETERS GOES HERE
+      </task>
+   </module>
+   ...
+</modules>
+
+(NOTE: I wrote this multilines only for easy reading, but all of it should be
+       in a single line)
+
+
+<modules />        Identifies the group of modules requested to the server.
+
+<module            Identifies a given module (plugin), this element will
+		   contain only child elements named <task>.
+ name=""/>         Identifies the module to load.
+
+<task              Identifies a task to execute in the module (plugin). This
+		   element will contain child elements without attributes.
+ name=""           Name of the task to execute.
+ id="" />          A Unique numeric identifier for this task.
+
+
+
+Body Document Type Definition (DTD):
+
+<!DOCTYPE modules [
+    <!ELEMENT modules (module *)>
+    <!ELEMENT module (task *)>
+    <!ATTLIST module name CDATA #REQUIRED>
+    <!ATTLIST task   name   CDATA #REQUIRED
+                     result CDATA #REQUIRED>
+]>
+
+Note that we do not declare "task" child elements, since we don't know what
+kind of information each task in a given module will suffice in order to have
+a success excecution.
+
+
+
+-------------------------------------------------------------------------------
+2. VALID MODULES
+-------------------------------------------------------------------------------
+
+The name of the modules specified by the atribute "name" in the "module"
+element should be any of the modules located in the plugins folder, but without
+the file extention.
+
+As an example, let's think that we wrote a module for user management and we
+put all the perl code and functions in VAdmind/Plugins/Users.pm. Now lets think that
+one of the functions coded is named show_info () and that function requires at
+least a username (of which it will show information). The incomming XML should
+look something like this:
+
+<?xml version="1.0"?>
+<modules>
+    <module name="User">
+        <task name="show_info" id="number">
+            <user>root</user>
+        </task>
+    </module>
+</modules>
+
+Remember that the task child elements does not requires attributes.
+
+Please, take a look to the DEVELOPERS documentation  for more information about
+developing new modules or changing existing ones.
+
+
+-------------------------------------------------------------------------------
+3. STRING EXAMPLES :
+-------------------------------------------------------------------------------
+
+To identify against the virtual server :
+
+<?xml version="1.0" ?>
+<auth user="user" host="host"/>
+
+Lets now take our previous example of a module implemented for user management.
+To add a new user 'foo' with password 'bar' name 'Foo Bar' with directory on
+'/home/intranet/foo' with shell 'sh' with 'ftp' and 'mail' privs and with a
+'15M' quota :
+
+<?xml version="1.0" ?>
+<modules>
+   <module name="User">
+      <task name="add" id="0">
+         <user>foo</user>
+         <pass>bar</pass>
+         <name>Foo Bar</name>
+         <home>/home/intranet/foo</home>
+         <shell>sh</shell>
+         <privs>ftp,mail</privs>
+         <quota>15360</quota>
+      </task>
+   </module>
+</modules>
+
+
+To add 'user1' with default values and delete 'user2' and his directory, then
+reboot the server:
+
+<?xml version="1.0" ?>
+<modules>
+   <module name="system">
+      <task name="reboot" id="0"/>
+   </module>
+   <module name="user">
+      <task name="add" id="1">
+         <user>user1</user>
+      </task>
+      <task name="del" id="2">
+         <user>user2</user>
+      </task>
+   </module>
+</modules>
+
+
+-------------------------------------------------------------------------------
+4. DETECTING INSTALLED PLUGINS
+-------------------------------------------------------------------------------
+
+In the 0.1.4 release we included a the new module Discover.pm which was developed
+with the following criteria:
+
+- Provide an easy way to detect installed modules in a VAdmind enabled server.
+- Application client be able to build a dynamic user interface (UI) based on the
+  specific required data, type and length.
+- Previous configuration of plugins free on client application.
+
+Those were the main reasons, if you find a cool way to use this new features
+let me know in order to include them :)
+
+Example of a BODY xml query:
+
+<?xml version="1.0"?><modules><module name="Discover"><task name="plugin_locate"/></module></modules>
+
+Will return something like:
+
+<?xml version='1.0' standalone='yes'?><modules><module name="Discover"><task name="plugin_locate"><plugin name="Discover" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="plugin_locate" /></plugin><plugin name="User" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><data><name length="40" type="opt" /><gid length="5" type="opt" /><login length="8" type="req" /><newlogin length="8" type="opt" /><pass length="16" type="opt" /><shell length="20" type="opt" /><uid length="5" type="opt" /></data><task name="add" /></plugin><plugin name="Init" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="prueba" /></plugin><plugin name="Test" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="sub1" /></plugin></task></module></modules>

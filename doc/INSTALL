@@ -1,0 +1,88 @@
+#****h* VAdmind/INSTALL *
+# NAME
+#   INSTALL 
+# COPYRIGTH
+#   (c) Urivan Saaib. All rights reserved.
+# DESCRIPTION
+#   Instructions on how to configure your server in order to sucessfuly
+#   install VAdmind.
+# AUTHOR
+#   Urivan Saaib <saaib@ciberlinux.net>
+# CREATION DATE
+#   16-Apr-2002
+# MODIFICATION HISTORY
+#   15-Apr-2002  - First Version.
+#   28-Sep-2003  - Adjusted for the new release
+#   11-Dic-2003	 - Some corrections. Removed references to "virtual" where they
+#                  should not be. Added some more information.
+#   10-Jul-2006  - Added setup.pl script to configure vadmind.xml
+#   28-Oct-2006  - Added daemon or application configuration option.
+# LICENSE
+#   This file is subject to the terms and conditions of the GNU
+#   General Public License.
+#***
+
+Here we go !
+
+OK, we asume you have installed and tested the following pre-requisites:
+
+- An installed Linux/*NIX like system.
+- Perl 5 (VAdmind was developed using v5.8.0)
+- The following perl modules installed on your system:
+  XML::Simple perl and IO::Socket::SSL
+- The xinetd package installed in your system (optional).
+
+Once we have satisfied the previous requisites, the instructions to setup this
+Virtual Administrator Daemon (VAdmind) are a few and very simple:
+
+1. As root, run the setup tool and provide requested information:
+
+	# setup.pl
+
+
+	This will configure vadmind.xml with the correct md5_hex key. The default values
+	are user: vadmind and host: localhost.
+	
+	The following lines will be appended to /etc/services:
+
+	vadmind         1888/tcp                    # Virtual Administrator Daemon
+
+	As you can see, the default port is 1888.
+
+	A copy of the doc/xinetd.conf will be transfered to /etc/xinetd.d/vadmind
+	in order to enable the service on xinetd. Here's the content of the file:
+
+	service vadmind
+	{
+		socket_type = stream
+		protocol = tcp
+		user = root
+		server = <_PATH_TO_VADMIND_>/vadmind.pl
+		server_args = <_PATH_TO_VADMIND_>/vadmind.xml
+		wait = no
+	}
+	
+	<_PATH_TO_VADMIND_> will be replaced with the installation directory you 
+	specify when running the tool.
+
+6. If you'll execute vadmind.pl using xinetd, make sure to edit the vadmind.xml 
+   config file and change the <mode>daemon</mode> to something different.
+
+6.1 Restart you xinetd/inetd daemon and that's it !
+
+7. If you'll execute vadmind.pl as a standalone daemon, make sure to edit the
+   vadmind.xml config file and change the <mode></mode> to daemon. ie:
+
+   <mode>daemon</mode>
+
+
+
+If you have any comments, suggestions, want to help debugging, commenting,
+sending any kind of improvements that the code might have... 
+
+What are you waiting for??  :)
+
+Regards.
+
+-Urivan Flores-Saaib
+<saaib_@at@_ciberlinux.net>

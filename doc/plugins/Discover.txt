@@ -1,0 +1,33 @@
+VAdmind's Discover.pm plugin
+By Urivan Saaib <saaib@ciberlinux.net>
+Jan 31, 2006
+
+
+                        C   O   N   C   E   P   T
+                        -------------------------
+
+
+The Discover.pm plugin will provide the following functions:
+
+A) List installed plugins on an enabled VAdmind server, task "plugin_locate" (no data).
+
+B) Provide information of each plugin such as:
+   - Author.
+   - Task availables.
+   - Data required.
+   - Type of data.
+
+
+In addition, this functionality should help to accomplish the following:
+
+A) Create dynamic UI (User Interfaces) on the client application.
+
+B) Avoid to pre-configure specific plugin functionality on the client application.
+
+Example of a BODY xml query:
+
+<?xml version="1.0"?><modules><module name="Discover"><task name="plugin_locate"/></module></modules>
+
+Will return something like:
+
+<?xml version='1.0' standalone='yes'?><modules><module name="Discover"><task name="plugin_locate"><plugin name="Discover" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="plugin_locate" /></plugin><plugin name="User" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><data><name length="40" type="opt" /><gid length="5" type="opt" /><login length="8" type="req" /><newlogin length="8" type="opt" /><pass length="16" type="opt" /><shell length="20" type="opt" /><uid length="5" type="opt" /></data><task name="add" /></plugin><plugin name="Init" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="prueba" /></plugin><plugin name="Test" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="sub1" /></plugin></task></module></modules>

@@ -1,0 +1,114 @@
+#****h* VAdmind/DEVELOPERS
+# NAME
+#    DEVELOPERS
+# COPYRIGHT
+#    (c) Urivan Saaib
+# DESCRIPTION
+#    Set of instructions on how to develop new VAdmind plugins (modules)
+# AUTHOR
+#    Urivan Saaib
+# CREATION DATE
+#    29-Oct-2003
+# MODIFICATION HISTORY
+#    11-Dic-2003  - Rearranged some of the points, and did some minor
+#                   corrections to the information.
+#    10-Jul-2006  - Updating XML schema change.
+#    28-Oct-2006  - Include SSL daemon mode debug procedure.
+#***
+
+1.- Introduction
+----------------
+Well, here we are... I'll try to be as brief as possible.
+Here you'll find a set of very simple steps to start the development of your
+own VAdmind Plugins.
+
+
+
+2.- What are the VAdmind Plugins?
+---------------------------------
+What I call 'plugins' are individual Perl modules which provides a specific
+functionality with several tasks (sub's) related to the area of focus/interest
+of the module.
+
+Those plugins will be dynamically loaded by the VAdmind server and then some of
+the included subroutines will be executed (both, module and task are specified
+in the XML string sent by the client to the server).
+
+
+
+3.- OK, but what about all of us first timers to VAdmin Plugins?
+----------------------------------------------------------------
+I'll explain how to develop plugins for the VAdmind server.
+Before anything I should state that you'll need some previous knowledge in
+order to code a VAdmind Plugin: Perl OO programming :)
+
+The VAdmind project provides an easy and powerful platform in order to allow
+interested developers to build new plugins. The VAdmind server handles the XML
+requests received, then, for each individual task it takes the child 
+elements values and stores the data in a hash array called '{in}'. Through that
+hash array, the developer can access all those values anywere needed in the
+plugin code.
+
+VAdmind provides as well another structure which should be used by the
+developer to store information that will be sent back (server->client). This
+information is:
+
+    - error message,
+    - return code,
+    - an alternative xml string to return
+
+Please read the QUERIES document for a reference of the DTD for the XML string.
+
+
+
+4.- So, seems relative easy... Do i need to include any specific code?
+----------------------------------------------------------------------
+Yes, each VAdmind plugin should have the following code inserted at the
+beginning of the file:
+
+
+package PluginName;
+use strict;
+
+sub new {
+    my $type = shift;
+    my $self = {@_};
+    return bless ($self, $type);
+}
+
+
+Of course, you should replace "PluginName" with your plugin name. IMPORTANT,
+note that the name defined here should match the filename inside the VAdmind
+plugin/ folder.
+
+Also, for every subroutine that will be executed by the VAdmind server, the
+following lines should be added:
+
+sub TaskName {
+   my $sefl = shift;
+   my $info = $self->{in};
+   ...
+
+}
+
+
+
+5- I Have my VAdmidn Plugin ready, now what?
+--------------------------------------------
+If you followed the VAdmind Plugin Development recommendations then
+your plugin is already in place to be used, and you should do nothing further,
+unless of course you need to extend the functionality of the plugin.
+
+If you developed a VAdmind Plugin and now want to test/implement it, you'll
+only need to place the it inside the VAdmind/Plugins directory, connect to
+the VAdmind server and send the propper XML strings.
+
+
+
+6- I'm running VAdmind on SSL mode, how to debug?
+-------------------------------------------------
+You can connect manually to your server using the following command:
+
+openssl s_client -connect localhost:1590
+
+Make sure you change 'localhost' and '1590' for your daemon server ip and port.

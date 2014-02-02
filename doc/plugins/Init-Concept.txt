@@ -1,0 +1,49 @@
+VAdmind's Init.pm plugin
+By Urivan Saaib <saaib@ciberlinux.net>
+Oct 16, 2004
+
+
+                        C   O   N   C   E   P   T
+                        -------------------------
+
+
+The Init.pm plugin will provide the following functions:
+
+A) List existing runlevels.
+   The plugin will provide a list of the existing runlevels present in the 
+   system. 
+
+B) List services in a runlevel.
+   The plugin will provide a list of services names with the bootup/shutdown
+   actions from a given runlevel,.
+
+C) Add a service.
+   The plugin will create a service entry into the system init directory.
+
+D) Delete a service.
+   The plugin will delete a service entry from the system init directory as well
+   as all the symbolic links made from each runlevel.
+
+E) Activate a service in a runlevel.
+   The plugin will create a service bootup entry in a given runlevel.
+
+F) Deactivate a service from a runlevel.
+   The plugin will remove any service bootup entry in a given runlevel.
+
+G) Start a service.
+   The plugin will start a given service.
+
+H) Stop a service.
+   The plugin will stop a given service.
+
+I) Get current runlevel.
+   The plugin will return the current configured runlevel to bootup.
+
+J) Set current runlevel
+   The plugin will configure the specified runlevel to bootup.
+
+K) Reboot
+   Reboot the system.
+
+L) Shutdown
+   Shutdown the system.

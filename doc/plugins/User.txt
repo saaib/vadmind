@@ -1,0 +1,67 @@
+
+************************* CONCEPCION USER.pm *********************************
+
+La funcionalidad principal del plugin es la administración de usuarios en un servidor.
+Ésta consiste en 3 partes principales:
+
+	*Debe permitir agregar usuarios al sistema especificando la siguiente 
+	 información:
+
+		Cuando sea invocada esta opción, se creará una nueva cuenta de usuario utilizando
+		los valores especificados y utilizando algunos valores por default del sistema.
+		Se creará su directoro de trabajo y se copiarán algunos archivos a dicho directorio
+		dependiendo de la misma manera de las opciones especificadas por el usuario.
+
+		Opciones:
+	
+			* Dar un comentario sobre el password del nuevo usuario.
+			* Especificar el nombre del directorio de trabajo del usuario, por default
+			  el sistema creará su directorio de trabajo añadiendo su login como
+			  nombre del directorio dentro del directorio /home.
+			* Especificar la fecha en la que expirará la cuenta del usuario.
+			* Especificar el número de dias después de que el password del usuario
+			  expire para que la cuenta sea desabilitada.
+			* Especificar el grupo de trabajo. Por default se otorga el grupo 1.
+			* Especificar una lista de los grupos suplementarios a los que pertenence.
+			* Especificar una direccion que contenga archivos que quiera añadir a su
+			  directorio de trabajo.
+			* Permitir que alguien mas pueda tener el mismo identificador de usuario.
+			* Especificar el password.
+			* Especificar el shell del usuario al iniciar su sesión.
+			* Especificar el valor numérico del identificador del usuario.
+			* Cambiar los valores default del sistema (grupo,directorio de trabajo,fecha
+			  de expiración, shell, numero de dias de la cuenta despues de que el password
+			  a expirado).
+
+	*Debe permitir la modificación de los datos del usuario
+
+		Cuando sea invocada esta opción, las opciones especificadas serán modificadas a los nuevos
+		valores dados.
+
+		Opciones a modificar:
+
+			* El comentario del password
+			* El directorio de trabajo
+			* La fecha de expiración 
+			* El grupo y grupos adicionales a los que pertenece el usuario
+			* El tiempo de inactividad del usuario despues de la expiracion del password
+			* Login y password
+			* Shell, valor numerico de su identificador
+			* Deshabilitar o habilitar su password
+		
+	No se podrá cambiar el login del usuario si esta actualmente en sesion o está ejecutando algun 
+	proceso.
+
+	*Debe permitir eliminar usuarios del sistema
+
+		Cuando sea invocada esta opción, tanto el usuario como sus archivos relacionados serán
+		borrados del sistema.
+
+		Opciones:
+
+			* Todos y cada uno de los archivos dentro de directorio del usuario serán 
+			  borrados junto con el directorio del usuario. Los archivos del usuario que
+			  se encunetren en otros directorios deberán ser borrados manualmente.
+		
+		El usuario no podrá ser borrado si está en sesion en ese mismo momento.
+

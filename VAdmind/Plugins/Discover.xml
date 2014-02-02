@@ -1,0 +1,5 @@
+<plugin name="Discover" version="1.0">
+	<author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net"/>
+	<task   name="plugin_locate"/>
+	<data/>
+</plugin>

@@ -1,0 +1,5 @@
+<plugin name="Init" version="1.0">
+	<author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net"/>
+	<task   name="prueba"/>
+	<data/>
+</plugin>
