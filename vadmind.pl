@@ -42,8 +42,8 @@ use strict;
 use FindBin;
 use lib $FindBin::Bin;
 use VAdmind;
-# use Term::ReadKey;
-# ReadMode 4; # Turn off controls keys 
+#use Term::ReadKey;
+#ReadMode 4; # Turn off controls keys 
 
 $| = 1;
 
