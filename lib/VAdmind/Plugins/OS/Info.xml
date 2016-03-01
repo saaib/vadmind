@@ -1,0 +1,6 @@
+<plugin name="OS_Info" version="1.0">
+	<author	name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net"/>
+	<task	name="os_ver"/>
+	<task	name="kernel_ver"/>
+	<task	name="cpu_type"/>
+</plugin>
