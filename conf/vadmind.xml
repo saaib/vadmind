@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- Virtual Administrator Daemon Configuration File -->
+<config>
+	<mode>inet</mode>       <!-- Mode to run as -->
+	<ip>0.0.0.0</ip>        <!-- IP to bind -->
+	<port>49150</port>      <!-- Port to bind -->
+	<listen>5</listen>      <!-- Max Clients -->
+
+	<!-- User to check for validating the "auth" string -->
+	<key>4cac29f5fcfe500bc7e9b88e503045b1</key>
+
+    <!-- Messages to display by the server -->
+	<messages>
+		<welcome>Welcome to the Virtual Administrator Server Daemon.</welcome>
+		<goodbye>Closing vadmind session.</goodbye>
+	</messages>
+
+	<!-- Where are some files -->
+	<paths>
+		<log>../log/vadmind.log</log>
+		<plugins>VAdmind/Plugins</plugins>
+	</paths>
+</config>
