@@ -7,19 +7,14 @@ VAdmind::Plugins::Discover::Discover - Provides information of plugins installed
 
 The code is being included by the VAdmind platform.
 
-my $plugin = Discover->new;
+my $plugin = VAdmind::Plugins::Discover::Discover->new;
 
 =cut
 
 package VAdmind::Plugins::Discover::Discover;
 use strict;
 use warnings;
-
 use File::Find;
-
-my $plugin_path;
-my $out;
-my $plugins = -1;
 
 =head1 CONSTRUCTORS
 
@@ -33,8 +28,9 @@ sub new {
 	my $type = shift;
 	my $self = {@_};
 
-	$self->{'VERSION'} = "0.1";
-	$self->{'AUTHOR'}  = "Urivan Flores Saaib <urivan (at) saaib.net>";
+	$self->{'VERSION'}   = "0.1";
+	$self->{'AUTHOR'}    = "Urivan Flores Saaib <urivan (at) saaib.net>";
+	$self->{plugins}     = -1;
 	$self = bless( $self, $type );
 	$self->init();
 	return $self;
@@ -57,16 +53,14 @@ Locates all plugins with XML associated data.
 =cut
 
 sub getPlugins {
-	my $self     = shift;
-	my $config   = $self->{'config'};
-	$out         = $self->{'out'};
-	$plugin_path = $config->{'path_plugins'};
-	$plugins     = 0;
+	my $self   = shift;
+	$self->{plugins} = 0;
 
-	find( \&findFile, $plugin_path );
+	find( \&findFile($self), $self->{config}->{path_plugins} );
 }
 
 sub findFile {
+	my $self           = shift;
 	my $file_full_path = $File::Find::name;
 	my $retflag        = 1;
 
@@ -80,9 +74,11 @@ sub findFile {
 	return unless $retflag == 0;
 	#return unless -f $file_full_path && $file_full_path =~ /\.[xX][mM][lL]$/;
 
-	$plugins++;
+	$self->{plugins}++;
+	my $plugins = $self->{plugins};
+	my $out = $self->{out};
 	my $file_local_path = $file_full_path;
-	$file_local_path =~ s/$plugin_path//;
+	$file_local_path =~ s/$self->{config}->{path_plugins}//;
 	my ( $group, $plugin ) = ( split( /\//, $file_local_path ) )[ 1, -1 ];
 	if ( !defined $plugin && defined $group ) {
 		$plugin = $group;
