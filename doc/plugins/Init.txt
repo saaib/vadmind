@@ -1,0 +1,179 @@
+#****h* VAdmind/doc/plugins/Init.txt
+# NAME
+#    Init.txt
+# COPYRIGHT
+#    (c) Urivan Saaib <saaib@ciberlinux.net>
+# DESCRIPTION
+#    Describes the design and implementation of the Init plugin.
+# AUTHOR
+#    Urivan Saaib
+# CREATION DATE
+#    16-Oct-2004
+# MODIFICATION HISTORY
+#    06/Dec/2014 - Updated content.
+#***
+
+The Init.pm plugin will provide the following functions:
+
+A) List existing runlevels.
+   The plugin will provide a list of the existing runlevels present in the 
+   system. 
+
+B) List services in a runlevel.
+   The plugin will provide a list of services names with the bootup/shutdown
+   actions from a given runlevel,.
+
+C) Add a service.
+   The plugin will create a service entry into the system init directory.
+
+D) Delete a service.
+   The plugin will delete a service entry from the system init directory as well
+   as all the symbolic links made from each runlevel.
+
+E) Activate a service in a runlevel.
+   The plugin will create a service bootup entry in a given runlevel.
+
+F) Deactivate a service from a runlevel.
+   The plugin will remove any service bootup entry in a given runlevel.
+
+G) Start a service.
+   The plugin will start a given service.
+
+H) Stop a service.
+   The plugin will stop a given service.
+
+I) Get current runlevel.
+   The plugin will return the current configured runlevel to bootup.
+
+J) Set current runlevel
+   The plugin will configure the specified runlevel to bootup.
+
+K) Reboot
+   Reboot the system.
+
+L) Shutdown
+   Shutdown the system.
+
+   
+
+
+
+                      P   L   A   N   N   I   N   G
+                      -----------------------------
+
+Here we'll define all the technical detail and requirements in order to develop
+the Init.pm plugin succesfully within a short period of time. The order will
+follow the one defined in the Concept phase.
+
+First, we'll define some information that is important for all the functions
+that the plugin will provide. This is in order to understand how and what it
+will read, write, create and modify in order to execute.
+
+The configuration file used by Linux at boot to execute the proper sequence of
+processes at the system initialization is /etc/inittab. The format of this file
+is the following:
+
+              id:runlevels:action:process
+
+where:
+      id:         4 char string
+      runlevels:  One or more runlevels
+      action:     What action to take
+      process:    What process to execute
+
+Valid runlevels: 0,1,2,3,4,5,6
+Valid actions: respawn, wait, once, boot, bootwait, off, ondemand, initdefault,
+               sysinit, powerwait, powerfail, powerokwait, powerfailnow,
+               ctrlaltdel, kbrequest.
+
+The directories where the bootup scripts are stored is /etc/rc.d/init.d
+The directories where the specific runlevel bootup scripts refeer are
+/etc/rc.d/rc?.d
+
+
+
+A) runlevel_list
+   Get the runlevels available in the system.
+   We can either take them from /etc/inittab or scann for the directories in
+   /etc/rc.d/rc?.d   Our first approach will be to scan the dirs.
+   Input: none
+   Return:
+   <runlevels>0,1,2,3,4,5,6</runlevels>
+
+B) runlevel_service_list
+   Get the list of services that are on and off in a runlevel
+   Input: 
+   <runlevel>0-6</runlevel>
+   Return: 
+   <services>
+      <service name="servicename">
+         <start>56</start>
+         <stop>24</stop>
+      <service>
+   </services>
+
+C) service_add
+   Adds a service entry to /etc/rc.d/init.d
+   Input:
+   <service>servicename</service>
+   <description>The Servicename description goes here</description>
+   <start>/somepath/to/script</strat>
+   <stop>/something/to/execute</stop>
+   Return: 0: Failure, 1: Success
+   
+D) service_del
+   Deletes a service script from /etc/rc.d/init.d and its corresponding
+   runlevel entries in /etc/rc.d/rc?.d/[SK0-90-9]servicename.
+   Input:
+   <service>servicename</service>
+   Return: 0: Failure, 1: Success
+
+E) service_runlevel_enable
+   Enables a service in a runlevel.
+   Input:
+   <service>servicename</service>
+   <runlevel>0-6</runlevel>
+   <start>56</start>    # S56servicename
+   <stop>24</stop>      # K24srevicename
+   Return: 0: Failure, 1: Success
+
+F) service_runlevel_disable
+   Disables a service in a runlevel.
+   Input:
+   <service>servicename</service>
+   <runlevel>0-6</runlevel>
+   Return: 0: Failure, 1: Success
+   
+G) service_start
+   Runs the service script with the "start" argument.
+   Input:
+   <service>servicename</service>
+   Return: 0: Failure, 1: Success
+
+H) service_stop
+   Runs the service script with the "stop" argument.
+   Input:
+   <service>servicename</service>
+   Return: 0: Failure, 1: Success
+
+I) runlevel_current
+   Get the current runlevel configured in the system for the bootup process.
+   Input: none
+   Return:
+
+J) runlevel_set
+   Set the bootup runlevel to the one specified.
+   Input:
+   <runlevel>0-6</runlevel>
+   Return: 0: Failure, 1: Success
+
+K) reboot
+   Reboots the system.
+   Input: none
+   Return: 0: Failure, 1: Success
+
+L) shutdown
+   Shutdowns the system.
+   Input: none
+   Return: 0: Failure, 1: Success
+   

@@ -1,6 +1,13 @@
 This file lists the changes to the archive, not the changes to the VAdmind
 source code. These are listed in each script part of this package.
 
+Dec 05, 2014 - Urivan Saaib (v0.3.0)
+
+ o Migrated from CVS to GIT.
+ o Updated DEVELOPERS document.
+ o Updated references to sample XML queries documentation.
+ o Published source code in http://github.com/saaib/vadmind
+
 Oct 28, 2006 - Urivan Saaib (v0.2.0)
  o Support for standalone/daemon mode
  o Include SSL support.

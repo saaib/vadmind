@@ -2,7 +2,7 @@
 # NAME
 #   INSTALL 
 # COPYRIGTH
-#   (c) Urivan Saaib. All rights reserved.
+#   (c) Urivan Saaib <saaib@ciberlinux.net>
 # DESCRIPTION
 #   Instructions on how to configure your server in order to sucessfuly
 #   install VAdmind.
@@ -22,26 +22,24 @@
 #   General Public License.
 #***
 
-Here we go !
-
 OK, we asume you have installed and tested the following pre-requisites:
 
 - An installed Linux/*NIX like system.
 - Perl 5 (VAdmind was developed using v5.8.0)
-- The following perl modules installed on your system:
-  XML::Simple perl and IO::Socket::SSL
+- XML::Simple perl module
+- IO::Socket::SSL perl odule
 - The xinetd package installed in your system (optional).
 
 Once we have satisfied the previous requisites, the instructions to setup this
 Virtual Administrator Daemon (VAdmind) are a few and very simple:
 
-1. As root, run the setup tool and provide requested information:
+1. As root, run the setup tool (included in the vadmind package distribution)
+   and provide requested information:
 
 	# setup.pl
 
 
-	This will configure vadmind.xml with the correct md5_hex key. The default values
-	are user: vadmind and host: localhost.
+	This will configure vadmind.xml with the correct md5_hex key.
 	
 	The following lines will be appended to /etc/services:
 
@@ -50,7 +48,7 @@ Virtual Administrator Daemon (VAdmind) are a few and very simple:
 	As you can see, the default port is 1888.
 
 	A copy of the doc/xinetd.conf will be transfered to /etc/xinetd.d/vadmind
-	in order to enable the service on xinetd. Here's the content of the file:
+	in order to enable vadmind xinetd service. Here's the content of the file:
 
 	service vadmind
 	{
@@ -63,14 +61,14 @@ Virtual Administrator Daemon (VAdmind) are a few and very simple:
 	}
 	
 	<_PATH_TO_VADMIND_> will be replaced with the installation directory you 
-	specify when running the tool.
+	specify when running the setup tool.
 
 6. If you'll execute vadmind.pl using xinetd, make sure to edit the vadmind.xml 
    config file and change the <mode>daemon</mode> to something different.
 
 6.1 Restart you xinetd/inetd daemon and that's it !
 
-7. If you'll execute vadmind.pl as a standalone daemon, make sure to edit the
+7. If you'll execute vadmind.pl as a standalone SSL daemon, make sure to edit the
    vadmind.xml config file and change the <mode></mode> to daemon. ie:
 
    <mode>daemon</mode>
@@ -78,11 +76,7 @@ Virtual Administrator Daemon (VAdmind) are a few and very simple:
 
 
 If you have any comments, suggestions, want to help debugging, commenting,
-sending any kind of improvements that the code might have... 
-
-What are you waiting for??  :)
-
-Regards.
+sending any kind of improvements that the code might have.
 
 -Urivan Flores-Saaib
 <saaib_@at@_ciberlinux.net>
