@@ -1,0 +1,5 @@
+<plugin name="Hardware" group="Hardware" version="1.0">
+        <author name="Urivan Flores Saaib" email="urivan (at) saaib.net"/>
+        <task   name="getCpuInfo"/>
+        <task   name="getBiosVer"/>
+</plugin>
