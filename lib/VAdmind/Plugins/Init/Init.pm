@@ -1,3 +1,4 @@
+#öß§²
 
 =head1 NAME
 
@@ -45,6 +46,8 @@ Creates a new Init plugin object.
 sub new {
 	my $type = shift;
 	my $self = {@_};
+	$self->{'VERSION'} = '1.0';
+	$self->{'AUTHOR'}  = 'Urivan Flores Saaib <urivan (at) saaib.net>';
 	return bless( $self, $type );
 }
 
