@@ -12,6 +12,7 @@ my $plugin = VAdmind::Plugins::Hardware::Hardware->new;
 
 package VAdmind::Plugins::Hardware::Hardware;
 use strict;
+use warnings;
 
 
 =head1 METHODS
