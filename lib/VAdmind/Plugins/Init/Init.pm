@@ -1,16 +1,19 @@
 =head1 NAME
 
-VAdmind::Init.pm - Provides functions for linux bootup configuration.
+VAdmind::Plugins::Init::Init.pm - Provides functions for linux bootup configuration.
 
 =head1 SYNOPSIS
 
 The code is being included by the VAdmind platform.
 
-my $plugin = Init->new;
+my $plugin = VAdmind::Plugins::Init::Init->new;
 
 =cut
 
 package VAdmind::Plugins::Init::Init;
+use strict;
+use warnings;
+
 
 =head1 METHODS
 
