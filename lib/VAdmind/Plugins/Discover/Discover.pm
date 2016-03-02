@@ -82,8 +82,8 @@ Locates all plugins with XML associated data.
 =cut
 
 sub getPlugins {
-	my $self     = shift;
-	my $config   = $self->{'config'};
+	my $self   = shift;
+	my $config = $self->{'config'};
 	$out         = $self->{'out'};
 	$plugin_path = $config->{'path_plugins'};
 	$plugins     = 0;
