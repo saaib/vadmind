@@ -1,7 +1,5 @@
 <plugin group="OS" name="Info" version="1.0">
 	<author	name="Urivan Flores Saaib" email="urivan (at) saaib.net"/>
-	<task	name="getOSVer"/>
-	<task	name="getKernelVer"/>
 	<task	name="getCpuInfo"/>
 	<task	name="getSystemLoad"/>
 </plugin>
