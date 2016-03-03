@@ -22,9 +22,6 @@ Urivan Flores Saaib <urivan (at) saaib.net>
 =head1 COPYRIGHT
 
 Copyright (c) 2003-2016 Urivan Flores Saaib <urivan (at) saaib.net>
-All rights reserved. 
-This module is free software, you can redistribute it and/or modify it under
-the same terms as Perl itself.
 
 =cut
 
