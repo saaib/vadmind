@@ -11,7 +11,7 @@ my $plugin = VAdmind::Plugins::Kernel::Kernel->new;
 
 =head1 DESCRIPTION
 
-PRovides methods to access/update information about the system kernel.
+Provides methods to access/update information about the system kernel.
 
 =head1 USES
 
@@ -49,6 +49,8 @@ sub new {
 	$self->{'AUTHOR'}  = 'Urivan Flores Saaib <urivan (at) saaib.net>';
 	return bless( $self, $type );
 }
+
+=head1 OTHER METHODS 
 
 =head2 getKernelVer
    
