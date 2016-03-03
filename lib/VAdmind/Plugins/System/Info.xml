@@ -1,0 +1,6 @@
+<plugin group="System" name="Info" version="1.0">
+	<author name="Urivan Flores Saaib" email="urivan (at) saaib.net"/>
+	<task   name="getRelease" />
+	<task	name="getSystemInfo" />
+	<task	name="getLoad" />
+</plugin>
