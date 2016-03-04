@@ -1,0 +1,16 @@
+<plugin group="System" name="Process" version="1.0">
+	<author name="Urivan Flores Saaib" email="urivan (at) saaib.net" />
+	<task name="getPidList" />
+	<task name="getPidByCmd">
+		<cmd length="20" type="req" />
+	</task>
+	<task name="getChildPidsById">
+		<pid length="5" type="req" />
+	</task>
+	<task name="killPidById">
+		<pid length="5" type="req" />
+	</task>
+	<task name="killPidByCmd">
+		<cmd length="255" type="req" />
+	</task>
+</plugin>
