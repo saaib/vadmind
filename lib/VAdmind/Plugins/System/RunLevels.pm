@@ -49,7 +49,8 @@ sub new {
 
 =head2 getRunLevelsConfig
 
-Returns a list of known runlevels and the associated services.
+Returns a list of configured services and their start/stop associated
+runlevels.
 
 =cut
 
