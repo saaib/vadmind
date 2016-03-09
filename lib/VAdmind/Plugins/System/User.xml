@@ -1,0 +1,33 @@
+<plugin name="User" group="System" version="1.0">
+	<author	name="Urivan Flores Saaib" email="urivan (at) saaib.net"/>
+	<task	name="addUser">
+		<data>
+			<login		length="8"	type="req"/>
+			<uid		length="5"	type="opt"/>
+			<gid		length="5"	type="opt"/>
+			<groups		length="250"	type="opt"/>
+			<name		length="40"	type="opt"/>
+			<shell		length="20"	type="opt"/>
+			<pass		length="16"	type="opt"/>
+		</data>
+	</task>
+	<task	name="delUser">
+		<data>
+			<login		length="8"	type="req"/>
+			<remove		length="1"	type="opt"/>
+		</data>
+	</task>
+	<task	name="editUser">
+		<data>
+			<login		length="8"	type="req"/>
+			<uid		length="5" type="opt"/>
+			<gid		length="5" type="opt"/>
+			<groups		length="250" type="opt"/>
+			<name		length="40" type="opt"/>
+			<shell		length="20" type="opt"/>
+			<pass		length="16" type="opt"/>
+			<new_login	length="8"  type="opt"/>
+		</data>
+	</task>
+	<task	name="getUserList"/>
+</plugin>
