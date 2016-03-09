@@ -28,7 +28,6 @@ Copyright (c) 2003-2016 Urivan Flores Saaib <urivan (at) saaib.net>
 package VAdmind::Plugins::System::User;
 use strict;
 use warnings;
-use Data::Dumper;
 
 =head1 METHODS
 
@@ -269,64 +268,63 @@ sub getUserList {
 
 	# Create a user list
 	my $user_list = {};
-	if ( open (USER, '/etc/passwd') ) {
+	if ( open( USER, '/etc/passwd' ) ) {
 		while (<USER>) {
 			my %user;
 			chomp;
-			($user{'login'}, $user{'uid'}, $user{'gid'}, $user{'comment'}, $user{'home'}, $user{'shell'} ) =
-				(split (/:/, $_))[0,2,3,4,5,6];
-			$user_list->{$user{'login'}} = {
-				'uid' => $user{'uid'}, 
-				'gid' => $user{'gid'}, 
-				'comment' => $user{'comment'}, 
-				'home' => $user{'home'},
-				'shell' => $user{'shell'},
-				'groups' => []
+			( $user{'login'}, $user{'uid'}, $user{'gid'}, $user{'comment'}, $user{'home'}, $user{'shell'} ) = ( split( /:/, $_ ) )[ 0, 2, 3, 4, 5, 6 ];
+			$user_list->{ $user{'login'} } = {
+				'uid'     => $user{'uid'},
+				'gid'     => $user{'gid'},
+				'comment' => $user{'comment'},
+				'home'    => $user{'home'},
+				'shell'   => $user{'shell'},
+				'groups'  => []
 			};
 		}
 		close(USER);
 	}
-	
+
 	my $group_list = {};
-	if (open (GRP, '/etc/group') ) {
+	if ( open( GRP, '/etc/group' ) ) {
 		while (<GRP>) {
 			my %grp;
 			chomp;
-			($grp{'name'}, $grp{'gid'}, $grp{'users'}) = (split(/:/, $_))[0,2,3];
-			$group_list->{$grp{'name'}} = {
-				'gid' => $grp{'gid'},
+			( $grp{'name'}, $grp{'gid'}, $grp{'users'} ) = ( split( /:/, $_ ) )[ 0, 2, 3 ];
+			$group_list->{ $grp{'name'} } = {
+				'gid'   => $grp{'gid'},
 				'users' => $grp{'users'}
 			};
 		}
 		close(GRP);
 	}
-	
+
 	# Add the group list distribution to the user list.
 	foreach my $group ( keys %{$group_list} ) {
-		if (defined $group_list->{$group}->{'users'}) {
-			foreach my $user (split (/,/, $group_list->{$group}->{'users'})) {
+		if ( defined $group_list->{$group}->{'users'} ) {
+			foreach my $user ( split( /,/, $group_list->{$group}->{'users'} ) ) {
 				if ( defined $user_list->{$user} && $user_list->{$user}->{'gid'} != $group_list->{$group}->{'gid'} ) {
-					push (@{$user_list->{$user}->{'groups'}}, $group_list->{$group}->{'gid'});
+					push( @{ $user_list->{$user}->{'groups'} }, $group_list->{$group}->{'gid'} );
 				}
 			}
 		}
 	}
-	
+
 	# Create the XML output
 	foreach my $user ( keys %{$user_list} ) {
 		my $user = {
-			'login' => $user,
-			'uid' => $user_list->{$user}->{'uid'}, 
-			'gid' => $user_list->{$user}->{'gid'},
-			'comment' => $user_list->{$user}->{'comment'}, 
-			'home' => $user_list->{$user}->{'home'},
-			'shell' => $user_list->{$user}->{'shell'},
-			'groups' => ''
+			'login'   => $user,
+			'uid'     => $user_list->{$user}->{'uid'},
+			'gid'     => $user_list->{$user}->{'gid'},
+			'comment' => $user_list->{$user}->{'comment'},
+			'home'    => $user_list->{$user}->{'home'},
+			'shell'   => $user_list->{$user}->{'shell'},
+			'groups'  => ''
 		};
-		foreach my $group (@{$user_list->{$user->{'login'}}->{'groups'}}) {
+		foreach my $group ( @{ $user_list->{ $user->{'login'} }->{'groups'} } ) {
 			$user->{'groups'} .= ',' . $group;
 		}
-		push (@{$out->{'xml'}->{'user'}}, $user);
+		push( @{ $out->{'xml'}->{'user'} }, $user );
 	}
 	return $out;
 }
