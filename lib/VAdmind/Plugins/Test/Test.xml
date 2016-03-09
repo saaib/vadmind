@@ -1,5 +1,5 @@
 <plugin name="Test" group="Test" version="1.0">
 	<author name="Urivan Flores Saaib" email="urivan (at) saaib.net"/>
-	<task   name="sub1"/>
+	<task   name="test"/>
 	<data/>
 </plugin>
