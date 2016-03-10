@@ -54,7 +54,7 @@ Read the content from FILE splitting content into an array based on SEPARATOR.
 sub readFile {
 	my $self    = shift;
 	my $file    = shift;
-	my @content = [];
+	my $content;
 	$/ = shift;
 
 	if ( !$/ ) {
@@ -65,11 +65,11 @@ sub readFile {
 		if ( open( FH, "<" . $file ) ) {
 			binmode(FH);
 			while (<FH>) {
-				push( @content, $_ );
+				$content .= $_;
 			}
 		}
 	}
-	return @content;
+	return $content;
 }
 
 =head2 writeFile FILE, CONTENT
@@ -82,7 +82,7 @@ sub writeFile {
 	my $self    = shift;
 	my $file    = shift;
 	my @content = @_;
-	my $ret     = 1;
+	my $ret     = 0;
 
 	if ( open( FH, ">" . $file ) ) {
 		binmode(FH);
@@ -90,7 +90,7 @@ sub writeFile {
 		close(FH);
 	}
 	else {
-		$ret = 0;
+		$ret = 1;
 	}
 	return $ret;
 }
@@ -105,15 +105,15 @@ sub appendFile {
 	my $self    = shift;
 	my $file    = shift;
 	my @content = @_;
-	my $ret     = 1;
+	my $ret     = 0;
 
-	if ( open( FH, ">>" . $file ) ) {
+	if ( -f $file && open( FH, ">>" . $file ) ) {
 		binmode(FH);
 		print FH @content;
 		close(FH);
 	}
 	else {
-		$ret = 0;
+		$ret = 1;
 	}
 	return $ret;
 }
