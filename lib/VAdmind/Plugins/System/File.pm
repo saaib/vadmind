@@ -113,7 +113,7 @@ sub appendFile {
 		if ( defined $file && ref \$file->{'path'}->[0] eq 'SCALAR' ) {
 			if ( -f $file->{'path'}->[0] ) {
 				my $data = decode_base64( $file->{'data'}->[0] );
-				$out->{'result'} = $fileObj->_appendFile( $file->{'path'}->[0], $data );
+				$out->{'result'} = $fileObj->appendFile( $file->{'path'}->[0], $data );
 			} 
 			else {
 				$out->{'result'} = 1;
