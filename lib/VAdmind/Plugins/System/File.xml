@@ -1,0 +1,24 @@
+<plugin name="File" group="System" version="1.0">
+	<author name="Urivan Flores Saaib" email="urivan (at) saaib.net" />
+	<task name="readFile">
+		<data>
+			<file length="1024" type="req" />
+		</data>
+	</task>
+	<task name="writeFile">
+		<data>
+			<file length="0" type="req">
+			    <path length="1024" type="req">
+				<data length="10240000" type="req" />
+			</file>
+		</data>
+	</task>
+	<task name="appendFile">
+		<data>
+			<file length="0" type="req">
+			    <path length="1024" type="req">
+				<data length="10240000" type="opt" />
+			</file>
+		</data>
+	</task>
+</plugin>
