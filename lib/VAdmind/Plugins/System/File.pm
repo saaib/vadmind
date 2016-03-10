@@ -28,12 +28,8 @@ Copyright (c) 2003-2016 Urivan Flores Saaib <urivan (at) saaib.net>
 package VAdmind::Plugins::System::File;
 use strict;
 use warnings;
-
-#use FindBin;
-#use lib $FindBin::Bin . '/../lib';
 use VAdmind::File;
 use MIME::Base64;
-use Data::Dumper;
 
 =head1 CONSTRUCTORS
 
