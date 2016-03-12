@@ -74,26 +74,26 @@ the function.
 
 The BODY sintax is :
 <?xml version="1.0" ?>
-<modules>
-   <module name="modulename">
+<plugins>
+   <plugin name="modulename" group="groupName">
       <task name="taskname" id="id_number">
          PARAMETERS GOES HERE
       </task>
-   </module>
+   </plugin>
    ...
-</modules>
+</plugins>
 
 (NOTE: I wrote this multilines only for easy reading, but all of it should be
        in a single line)
 
 
-<modules />        Identifies the group of modules requested to the server.
+<plugins />        Identifies the group of plugins requested to the server.
 
-<module            Identifies a given module (plugin), this element will
+<plugin            Identifies a given plugin, this element will
 		   contain only child elements named <task>.
  name=""/>         Identifies the module to load.
 
-<task              Identifies a task to execute in the module (plugin). This
+<task              Identifies a task to execute in the plugin. This
 		   element will contain child elements without attributes.
  name=""           Name of the task to execute.
  id="" />          A Unique numeric identifier for this task.
@@ -103,9 +103,10 @@ The BODY sintax is :
 Body Document Type Definition (DTD):
 
 <!DOCTYPE modules [
-    <!ELEMENT modules (module *)>
-    <!ELEMENT module (task *)>
-    <!ATTLIST module name CDATA #REQUIRED>
+    <!ELEMENT plugins (plugin *)>
+    <!ELEMENT plugin (task *)>
+    <!ATTLIST plugin name  CDATA #REQUIRED>
+                     group CDATA #OPTIONAL>
     <!ATTLIST task   name   CDATA #REQUIRED
                      result CDATA #REQUIRED>
 ]>
@@ -120,24 +121,24 @@ a success excecution.
 2. VALID MODULES
 -------------------------------------------------------------------------------
 
-The name of the modules specified by the atribute "name" in the "module"
-element should be any of the modules located in the plugins folder, but without
-the file extention.
+The name of the modules specified by the atribute "name" in the "plugin"
+element should be any of the plugins located in the VAdmind/Plugins folder, but
+without the file extention.
 
-As an example, let's think that we wrote a module for user management and we
-put all the perl code and functions in VAdmind/Plugins/Users.pm. Now lets think that
-one of the functions coded is named show_info () and that function requires at
+As an example, let's think that we wrote a plugin for user management and we
+put all the perl code and functions in VAdmind/Plugins/UsersMngt/Users.pm. Asuming
+one of the functions coded is named show_info() and that function requires at
 least a username (of which it will show information). The incomming XML should
 look something like this:
 
 <?xml version="1.0"?>
-<modules>
-    <module name="User">
+<plugins>
+    <plugin name="User" group="UserMngt">
         <task name="show_info" id="number">
             <user>root</user>
         </task>
-    </module>
-</modules>
+    </plugin>
+</plugins>
 
 Remember that the task child elements does not requires attributes.
 
@@ -160,8 +161,8 @@ To add a new user 'foo' with password 'bar' name 'Foo Bar' with directory on
 '15M' quota :
 
 <?xml version="1.0" ?>
-<modules>
-   <module name="User">
+<plugins>
+   <plugin name="User" group="UserMngt">
       <task name="add" id="0">
          <user>foo</user>
          <pass>bar</pass>
@@ -171,27 +172,27 @@ To add a new user 'foo' with password 'bar' name 'Foo Bar' with directory on
          <privs>ftp,mail</privs>
          <quota>15360</quota>
       </task>
-   </module>
-</modules>
+   </plugin>
+</plugins>
 
 
 To add 'user1' with default values and delete 'user2' and his directory, then
 reboot the server:
 
 <?xml version="1.0" ?>
-<modules>
-   <module name="system">
+<plugins>
+   <plugin name="System" group="SystemMngt">
       <task name="reboot" id="0"/>
-   </module>
-   <module name="user">
+   </plugin>
+   <plugin name="User" group="UserMngt">
       <task name="add" id="1">
          <user>user1</user>
       </task>
       <task name="del" id="2">
          <user>user2</user>
       </task>
-   </module>
-</modules>
+   </plugin>
+</plugins>
 
 
 -------------------------------------------------------------------------------
@@ -211,8 +212,10 @@ let me know in order to include them :)
 
 Example of a BODY xml query:
 
-<?xml version="1.0"?><modules><module name="Discover"><task name="plugin_locate"/></module></modules>
+<?xml version="1.0"?><plugins><plugin name="Discover" group="Discover"><task name="getPlugins"/></plugin></plugins>
 
 Will return something like:
 
-<?xml version='1.0' standalone='yes'?><modules><module name="Discover"><task name="plugin_locate"><plugin name="Discover" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="plugin_locate" /></plugin><plugin name="User" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><data><name length="40" type="opt" /><gid length="5" type="opt" /><login length="8" type="req" /><newlogin length="8" type="opt" /><pass length="16" type="opt" /><shell length="20" type="opt" /><uid length="5" type="opt" /></data><task name="add" /></plugin><plugin name="Init" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="prueba" /></plugin><plugin name="Test" version="1.0"><author name="Urivan Alyasid Flores Saaib" email="saaib@ciberlinux.net" /><task name="sub1" /></plugin></task></module></modules>
+<?xml version='1.0' standalone='yes'?><plugins><plugin name="Discover" group="Discover"><task name="getPlugins"><plugin name="Discover" version="1.0"><author name="Urivan Flores Saaib" email="urivan (at) saaib.net" /><task name="getPlugins" /></plugin></plugins>
+
+

@@ -1,107 +1,112 @@
 This file lists the changes to the archive, not the changes to the VAdmind
 source code. These are listed in each script part of this package.
 
-Dec 05, 2014 - Urivan Saaib (v0.3.0)
+Mar 11, 2016 - Urivan Saaib (v0.4.0)
+- Clean up plugin directory structure.
+- Updated and verified plugins code.
+- Added more scripts on bin/ folder.
+- Updated documentation.
 
- o Migrated from CVS to GIT.
- o Updated DEVELOPERS document.
- o Updated references to sample XML queries documentation.
- o Published source code in http://github.com/saaib/vadmind
+Dec 05, 2014 - Urivan Saaib (v0.3.0)
+- Migrated from CVS to GIT.
+- Updated DEVELOPERS document.
+- Updated references to sample XML queries documentation.
+- Published source code in http://github.com/saaib/vadmind
 
 Oct 28, 2006 - Urivan Saaib (v0.2.0)
- o Support for standalone/daemon mode
- o Include SSL support.
- o Included a default SSL certificate.
- o Default timeout of 30 secs while read/write socket.
- o More refined log messages.
- o New configuration element <mode></mode> (vadmind.xml)
- o New configuration element <ip></ip> (vadmind.xml).
- o New configuration element <port></port> (vadmind.xml)
- o New configuration element <listen></listen> (vadmind.xml)
+- Support for standalone/daemon mode
+- Include SSL support.
+- Included a default SSL certificate.
+- Default timeout of 30 secs while read/write socket.
+- More refined log messages.
+- New configuration element <mode></mode> (vadmind.xml)
+- New configuration element <ip></ip> (vadmind.xml).
+- New configuration element <port></port> (vadmind.xml)
+- New configuration element <listen></listen> (vadmind.xml)
 
 Jul 10, 2006 - Urivan Saaib (v0.1.5)
- o Change <auth> properties to user="" and host=""
- o Remove <user> and <pass>, add <key> to vadmind.xml
- o The key computes by md5_hex (<user>@<host>) = <key>
- o Fixed function error_text typo.
+- Change <auth> properties to user="" and host=""
+- Remove <user> and <pass>, add <key> to vadmind.xml
+- The key computes by md5_hex (<user>@<host>) = <key>
+- Fixed function error_text typo.
 
 Jan 31, 2006 - Urivan Saaib (v0.1.4)
- o Add output to a log file.
- o Directory structure change, plugins now should be located in
+- Add output to a log file.
+- Directory structure change, plugins now should be located in
    VAdmind/Plugins
    in order to prepare for a VAdmind module release.
- o New plugin Discover.pm, provides a task to discover installed plugins, task
+- New plugin Discover.pm, provides a task to discover installed plugins, task
    availables and data required.
- o Introducing XML file description for task and data required for each
+- Introducing XML file description for task and data required for each
    module.
  
 Apr 10, 2004 - Urivan Saaib (v0.1.3)
- o V0.1.3 Released !
- o Fixed a problem in VAdmind.pm related to the $plugin object and the {in}
+- V0.1.3 Released !
+- Fixed a problem in VAdmind.pm related to the $plugin object and the {in}
    and {out} data structures.
- o Reflected the change and added more detail in the Test.pm example plugin.
+- Reflected the change and added more detail in the Test.pm example plugin.
 
 Sep 28, 2003 - Urivan Saaib (v0.1.2)
- o V0.1.2 Released !
- o Some changes in the directory/files structure
+- V0.1.2 Released !
+- Some changes in the directory/files structure
 
 Sep 28, 2003 - Urivan Saaib (v0.1.1)
- o Some bug fixes
- o Code documentation completed
- o Defined new filesystem structure
- o Prepare to release
+- Some bug fixes
+- Code documentation completed
+- Defined new filesystem structure
+- Prepare to release
 
 Sep 27, 2003 - Urivan Saaib (v0.1.1)
- o Authentication method has changed
- o Finally enabled the system to load "plugins" whenever they are needed
+- Authentication method has changed
+- Finally enabled the system to load "plugins" whenever they are needed
    <module name="ModuleName">     Will make VAdmind to load a plugin called "ModuleName".
                                   WARNING: THIS IS CASE SENSITIVE !!
        <task name="TaskName">     Specifies the subroutine to call from the plugin loaded.
                                   WARNING: THIS IS CASE SENSITIVE !!
 
 Sep 23, 2003 - Urivan Saaib (v0.1.1)
- o Recoded most of the code defining an OO approach
- o VAdminc.conf changed to vadmind.xml
- o Some configuration settings changed (check vadmind.xml)
+- Recoded most of the code defining an OO approach
+- VAdminc.conf changed to vadmind.xml
+- Some configuration settings changed (check vadmind.xml)
 
 Apr 27, 2002 - Urivan Saaib (V0.1)
- o Add VAdmind.pm
- o Moved some functions from User.pm to VAdmind.pm to start the generic API
+- Add VAdmind.pm
+- Moved some functions from User.pm to VAdmind.pm to start the generic API
 
 Apr 26, 2002 - Urivan Saaib (V0.1)
- o Generated cross-references HTML documentation from the source code.
- o Added the folder doc/html to store the html documentation.
+- Generated cross-references HTML documentation from the source code.
+- Added the folder doc/html to store the html documentation.
 
 Apr 25, 2002 - Urivan Saaib (V0.1)
- o Added the doc/README file.
- o Updated doc/QUERIES.
- o Updated doc/xinetd.conf
+- Added the doc/README file.
+- Updated doc/QUERIES.
+- Updated doc/xinetd.conf
 
 Apr 22, 2002 - Urivan Saaib (V0.1)
- o Added some xml examples into xml/
+- Added some xml examples into xml/
 
 Apr 16, 2002 - Urivan Saaib (V0.1)
- o Added VAdmind.conf
- o Generated HTML crossreferenced HTML documentation
- o Added client.pl a simple perl client to VAdmind
- o Separated the request string into HEADER and BODY
- o Added auth.xml
- o Renamed request.xml to body.xml
- o Created the xml/ directory and moved auth.xml and request.xml into it
- o A little more of abstraction done to the QUERIES file.
+- Added VAdmind.conf
+- Generated HTML crossreferenced HTML documentation
+- Added client.pl a simple perl client to VAdmind
+- Separated the request string into HEADER and BODY
+- Added auth.xml
+- Renamed request.xml to body.xml
+- Created the xml/ directory and moved auth.xml and request.xml into it
+- A little more of abstraction done to the QUERIES file.
 
 Apr 14, 2002 - Urivan Saaib (V0.1)
- o Updated request.xml
- o Split the source code into several files
- o Added System.pm
- o Added User.pm
+- Updated request.xml
+- Split the source code into several files
+- Added System.pm
+- Added User.pm
 
 Apr 13, 2002 - Urivan Saaib (V0.1)
- o Added GPL license
- o Added AUTHORS
- o Added the request.xml file which includes the XML sintax file description
- o A little of abstraction done to the QUERIES file.
+- Added GPL license
+- Added AUTHORS
+- Added the request.xml file which includes the XML sintax file description
+- A little of abstraction done to the QUERIES file.
 
 Apr 12, 2002 - Urivan Saaib (V0.0)
- o Defined the queries between client-server communication.
- o Added the QUERIES file.
+- Defined the queries between client-server communication.
+- Added the QUERIES file.

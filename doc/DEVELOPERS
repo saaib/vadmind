@@ -2,7 +2,7 @@
 # NAME
 #    DEVELOPERS
 # COPYRIGHT
-#    (c) Urivan Saaib <saaib@ciberlinux.net>
+#    (c) Urivan Saaib <urivan (at) saaib.net>
 # DESCRIPTION
 #    Set of instructions on how to develop new VAdmind plugins (modules)
 # AUTHOR
@@ -14,6 +14,7 @@
 #                   corrections to the information.
 #    10-Jul-2006  - Updating XML schema change.
 #    28-Oct-2006  - Include SSL daemon mode debug procedure.
+#    11-Mar-2016  - Updated Copyright notice and content.
 #***
 
 1.- Introduction
@@ -33,11 +34,11 @@ the included subroutines will be executed. Both, module and task are specified
 in the XML string sent by the client to the server.
 
 
-3.- OK, but what about all of us first timers to VAdmin Plugins?
+3.- First time developing a VAdmin Plugins?
 ----------------------------------------------------------------
 I'll explain how to develop plugins for the VAdmind server.
-Before anything I should state that you'll need some previous knowledge in
-order to code a VAdmind Plugin: Perl OO programming :)
+Before anything I should state that the only requirement is to have
+some knowledge in Perl OO programming :)
 
 The VAdmind project provides an easy and powerful platform in order to allow
 interested developers to build new plugins. The VAdmind server handles the XML
@@ -57,13 +58,13 @@ information is:
 Please read the QUERIES document for a reference of the DTD for the XML string.
 
 
-4.- It seems relative easy... Do i need to include any specific code?
+4.- It seems relative easy... How do I start?
 ----------------------------------------------------------------------
 Yes, each VAdmind plugin should have the following code inserted at the
 beginning of the file:
 
 
-package PluginName;
+package VAdmind::Plugins::PluginName;
 use strict;
 
 sub new {
@@ -73,11 +74,12 @@ sub new {
 }
 
 
-Of course, you should replace "PluginName" with your plugin name.
+Of course, you should replace "PluginName" with your plugin name based on folder
+and file name structure.
 
 IMPORTANT:
    Note that the name defined here should match the filename inside the VAdmind
-   plugin/ folder.
+   Plugins/ folder.
 
 Also, for every subroutine that will be executed by the VAdmind server, the
 following lines should be added:
@@ -91,22 +93,22 @@ sub TaskName {
 }
 
 
-5- I Have my VAdmidn Plugin ready, now what?
+5.- I Have my VAdmidn Plugin ready, now what?
 --------------------------------------------
 If you followed the VAdmind Plugin Development recommendations then
-your plugin is already in place to be used, and you should do nothing further,
-unless of course you need to extend the functionality of the plugin.
+your plugin is already in place to be use.
 
-If you developed a VAdmind Plugin and now want to test/implement it, you'll
+After you developed a VAdmind Plugin and now want to test/implement it, you'll
 only need to place the it inside the VAdmind/Plugins directory, connect to
 the VAdmind server and send the propper XML strings.
 
 
-6- I'm running VAdmind on SSL mode, how to debug?
+6.- I'm running VAdmind on SSL mode, how to debug?
 -------------------------------------------------
 You can connect manually to your server using the following command:
 
-openssl s_client -connect localhost:1590
+openssl s_client -connect localhost:1888
 
-Make sure you change 'localhost' and '1590' for your daemon server ip and port.
+Make sure you change 'localhost' and '1888' for your daemon server ip and port.
+
 

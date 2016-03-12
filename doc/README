@@ -1,5 +1,5 @@
-Virtual Administrator Daemon v0.2.0
-Copyright (c) Urivan Saaib <saaib@ciberlinux.net>
+Virtual Administrator Daemon v0.3.0
+Copyright (c) Urivan Saaib <urivan (at) saaib.net>
 All rights reserved.
 
 VAdmind is intended to provide the server management through a set of XML strings
@@ -12,11 +12,11 @@ so the client side can do whatever they want.
 The distribution of this software is simple, when you untared the file a
 directory "VAdmind" was created, inside that directory is the following :
 
-- vadmind.pl             The perl daemon.
-- vadmind.xml            Configuration file.
-- vadmind.log            Default Log file.
-- VAdmind.pm             Main VAdmind module.
-- setup.pl               Setup tool. Run only once.
+- bin/vadmind.pl         The vadmind daemon.
+- bin/setup.pl           Setup tool. Run only once.
+- conf/vadmind.xml       Configuration file.
+- log/vadmind.log        Default Log file.
+- lib/VAdmind.pm         Main VAdmind module.
 - doc/                   The directory where you found this file ! :)
 - doc/README             Guess what ??? this file !
 - doc/AUTHORS            The list of contributors to this project.
@@ -27,21 +27,23 @@ directory "VAdmind" was created, inside that directory is the following :
                          daemon. Strings expected and returned.
 - doc/xinetd.conf        An example on how to configure xinetd on your
   			 server.
-- VAdmind/Plugins/       Directory where to place all the vadmind plugins.
+- lib/VAdmind/Plugins/   Directory where to place all the vadmind plugins.
                          As this project evolves, more plugins will be developed
                          and included in the default distribution.
 - certs/                 Default certificates when run as SSL daemon.
 
 
 For those who are new to this piece of software, this project started as a remote
-server management system specialized for Virtual Servers. Many of you will say, well
-there are already several tools for remote server management !, yes, there are some,
-but none of them achieved what i needed in functionality, nor had the right license.
+server management system specialized for Virtual Servers back in 1995. Many of you
+will say, well there are already several tools for remote server management !, yes,
+there are some, but none of them achieved what i needed in functionality, nor had 
+the right license.
 
 If you have any comments, suggestions, or want to contribute to the development
 of this software in any way, please contact me (see below).
 
 Regards,
+
 
  THIS SOFTWARE IS PROVIDED BY THE DEVELOPER ``AS IS'' AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -55,6 +57,3 @@ Regards,
  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  SUCH DAMAGE.
 
-_______________________________________________________
-Urivan Saaib
-Email: saaib@ciberlinux.net

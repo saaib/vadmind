@@ -64,9 +64,9 @@ Virtual Administrator Daemon (VAdmind) are a few and very simple:
 	specify when running the setup tool.
 
 6. If you'll execute vadmind.pl using xinetd, make sure to edit the vadmind.xml 
-   config file and change the <mode>daemon</mode> to something different.
+   config file and change the <mode>daemon</mode> to inet.
 
-6.1 Restart you xinetd/inetd daemon and that's it !
+6.1 Restart you xinetd/inetd service.
 
 7. If you'll execute vadmind.pl as a standalone SSL daemon, make sure to edit the
    vadmind.xml config file and change the <mode></mode> to daemon. ie:
@@ -74,9 +74,3 @@ Virtual Administrator Daemon (VAdmind) are a few and very simple:
    <mode>daemon</mode>
 
 
-
-If you have any comments, suggestions, want to help debugging, commenting,
-sending any kind of improvements that the code might have.
-
--Urivan Flores-Saaib
-<saaib_@at@_ciberlinux.net>
