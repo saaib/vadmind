@@ -1,0 +1,1 @@
+<?xml version='1.0'?><plugins><plugin name='User' group='System'><task name='delUser'><login>vadmindtest</login><force>1</force></task></plugin></plugins>

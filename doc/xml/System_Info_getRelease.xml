@@ -1,0 +1,1 @@
+<?xml version="1.0"?><plugins><plugin group="System" name="Info"><task id="1" name="getRelease"/><task id="2" name="getSystemInfo"/><task id="3" name="getLoad"/></plugin></plugins>
