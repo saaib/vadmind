@@ -10,7 +10,7 @@ vadmind.pl config.xml
 
 =head1 COPYRIGHT
 
-Urivan Saaib <urivan@saaib.net>
+Urivan Saaib <urivan (at) saaib.net>
 
 =head2 PROCESS
 

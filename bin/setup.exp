@@ -1,0 +1,56 @@
+#!/usr/bin/expect
+
+# Transfers and installs vadmind scripts
+
+if {[llength $argv] != 2} { send_user "Usage: setup.exp host passwd\r"; exit }
+
+set log_user 1
+set timeout -1
+set send_slow {1 .1}
+
+set host [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn /bin/rm -f ~/.ssh/known_hosts
+expect "\]\$"
+
+spawn scp -r ../vadmind root@$host:/tmp
+expect {
+	"ssh_exchange_identification: Connection closed by remote host" { return 1 }
+	"Are you sure you want to continue connecting (yes/no)?" {
+                send "yes\r"
+                expect "password: " { send "M3diaFL0\r" }
+        }
+	"password: " { send "$password\r" }
+	timeout { send_user "\r\r==> Connection Timed Out!\r\r"; return 1 }
+}
+expect "\]$"
+
+spawn ssh root@$host
+expect {
+	"ssh_exchange_identification: Connection closed by remote host" { return 1 }
+	"Are you sure you want to continue connecting (yes/no)?" {
+                send "yes\r"
+                expect "password: " { send "M3diaFL0\r" }
+        }
+	"password: " { send "$password\r" }
+	timeout { send_user "\r\r==> Connection Timed Out!\r\r"; return 1 }
+}
+expect "\]#"
+
+send "/bin/sed 's/#PATH#/\\/tmp/g' /tmp/VAdmind/doc/xinetd.conf > /etc/xinetd.d/vadmind\r"
+expect "\]#"
+
+send "/bin/sed 's/\\/usr2\\/usaaib\\/www\\/Devel/\\/tmp/g' -i /tmp/VAdmind/vadmind.xml\r"
+expect "\]#"
+
+send "/bin/echo \"vadmind         1888/tcp        vadmind\" >> /etc/services\r"
+expect "\]#"
+
+send "/bin/rpm -ivh http://usaaib-linux/devel/perl-XML-Simple-2.14-1.noarch.rpm\r"
+expect "\]#"
+
+send "/sbin/service xinetd restart\r"
+expect "\]#"
+
+send_user "\r"
