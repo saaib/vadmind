@@ -24,7 +24,7 @@ use Data::Dumper;
 
 
 BEGIN {
-	$VERSION = '0.2';
+	$VERSION = '0.4.0';
 	$DAEMON = 'daemon';
 }
 
@@ -674,6 +674,7 @@ Urivan Saaib <saaib@ciberlinux.net>
 Sep 29 2003 - New version, 0.2 released. Previous code has been deleted.
 Apr 10 2004 - Fixed a problem with the $plugin_obj object related to the data
               structures "in" and "out".
+Mar 10 2016 - Ver 0.4.0
 
 =cut 
 
