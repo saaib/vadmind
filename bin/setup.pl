@@ -49,7 +49,7 @@ use XML::Simple;
 
 
 print <<EOF;
-VAdmind setup tool v0.1
+VAdmind setup tool v0.4
 This script will configure the files required to successfuly run the VAdmind
 service on the current system.
 

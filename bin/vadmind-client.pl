@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-#****h* VAdmind/vadmind-client.pl [0.1] ***
+#****h* VAdmind/vadmind-client.pl [0.2] ***
 # NAME
 #   vadmind-client.pl -- Communicates with the admserv daemon and sends commands.
 # COPYRIGHT
@@ -16,7 +16,7 @@
 #   07-Apr-2001
 # MODIFICATION HISTORY
 #   07-Apr-2001 - v0.1   - First Version
-#   10-Mar-2016 - Code cleanup and migration to git.
+#   10-Mar-2016 - v0.2 Code cleanup and migration to git.
 # LICENSE
 #   This file is subject to the terms and conditions of the GNU
 #   General Public License.
