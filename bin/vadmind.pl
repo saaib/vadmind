@@ -38,102 +38,99 @@ for 1..2
 
 =cut
 
-
 use strict;
 use FindBin;
 use lib $FindBin::Bin . '/../lib';
 use VAdmind;
 
-
 sub main_loop {
 	my $server = shift;
-	$server->addlog ('110 Client connected.');
-	$server->out (
-		$server->config->{'config'}->[0]->{'messages'}->[0]->{'welcome'}->[0] .
-		" v".$server->version
-	);
+	$server->addlog('110 Client connected.');
+	$server->out( $server->config->{'config'}->[0]->{'messages'}->[0]->{'welcome'}->[0] . " v" . $server->version );
 	$server->socket_write;
-	$server->out ($server->error)
-		&& $server->socket_write
-		&& return if $server->error;
-	for ( my $index = 0; $index < 2; $index++ ) {
-		if ($server->socket_in) {
+	$server->out( $server->error )
+	  && $server->socket_write
+	  && return
+	  if $server->error;
+	for ( my $index = 0 ; $index < 2 ; $index++ ) {
+		if ( $server->socket_in ) {
 			$server->socket_read;
 		}
-		$server->out ($server->error)
-			&& $server->socket_write
-			&& last if $server->error;
+		$server->out( $server->error )
+		  && $server->socket_write
+		  && last
+		  if $server->error;
 		$server->xml_parse;
-		$server->out ($server->error)
-			&& $server->socket_write
-			&& last if $server->error;
-		$index  ? $server->plugin_load
-			: $server->authenticate;
-		$server->out ($server->error)
-			&& $server->socket_write
-			&& last if $server->error;
-		$server->xmltree2ascii ($server->xml_out);
-		if ($server->socket_out) {
+		$server->out( $server->error )
+		  && $server->socket_write
+		  && last
+		  if $server->error;
+		$index
+		  ? $server->plugin_load
+		  : $server->authenticate;
+		$server->out( $server->error )
+		  && $server->socket_write
+		  && last
+		  if $server->error;
+		$server->xmltree2ascii( $server->xml_out );
+		if ( $server->socket_out ) {
 			$server->socket_write;
-			$server->out ($server->error)
-				&& $server->socket_write
-				&& last if $server->error;
+			$server->out( $server->error )
+			  && $server->socket_write
+			  && last
+			  if $server->error;
 		}
-		$server->xml_out (undef);
+		$server->xml_out(undef);
 	}
-	$server->error (undef);
-	$server->out (
-		$server->config->{'config'}->[0]->{'messages'}->[0]->{'goodbye'}->[0]
-	);
+	$server->error(undef);
+	$server->out( $server->config->{'config'}->[0]->{'messages'}->[0]->{'goodbye'}->[0] );
 	$server->socket_write;
-	$server->addlog ('111 Client exiting...');
+	$server->addlog('111 Client exiting...');
 }
 
-
-
-
-if (scalar (@ARGV) < 1) {
+if ( scalar(@ARGV) < 1 ) {
 	die "Usage: $0 config.xml\n";
 }
 else {
 	my $server = VAdmind->new();
 	$| = 1;
-	$server->config_file ( $ARGV[0] );
+	$server->config_file( $ARGV[0] );
 	$server->config_set;
-	if (! $server->error) {
+	if ( !$server->error ) {
 		$server->socket_open;
-		$server->out ($server->error)
-			&& $server->socket_write
-			&& exit if $server->error;
+		$server->out( $server->error )
+		  && $server->socket_write
+		  && exit
+		  if $server->error;
 
-		if (lc ($server->config->{'config'}->[0]->{'mode'}->[0]) eq 'daemon') {
-			if ($server->socket_server) {
+		if ( lc( $server->config->{'config'}->[0]->{'mode'}->[0] ) eq 'daemon' ) {
+			if ( $server->socket_server ) {
 				while (1) {
-					while (my $client = $server->socket_server->accept ()) {
-						if (! $client) {
+					while ( my $client = $server->socket_server->accept() ) {
+						if ( !$client ) {
 							$server->socket_error;
 							next;
 						}
-						$server->socket_in ($client);
-						$server->socket_out ($client);
+						$server->socket_in($client);
+						$server->socket_out($client);
 
-						&main_loop ();
+						&main_loop();
 
 						if ($client) {
-							close ($client);
+							close($client);
 						}
 					}
 				}
 			}
 		}
 		else {
-			&main_loop ($server)
+			&main_loop($server);
 		}
-		$server->socket_close ();
+		$server->socket_close();
 	}
 	else {
-		print $server->error ."\n";
+		print $server->error . "\n";
 	}
 }
 
-exit (0);
+exit(0);

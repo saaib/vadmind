@@ -21,160 +21,162 @@ Urivan Saaib <urivan (at) saaib.net>
 
 =cut
 
-
 use IO::Socket;
 use XML::Simple;
-#use Data::Dumper;
-
 
 sub openSocket {
-   my $host  = shift;
-   my $port  = shift;
-   my $error = 0;
-   IO::Socket::INET->new ("$host:$port");
+	my $host  = shift;
+	my $port  = shift;
+	my $error = 0;
+	IO::Socket::INET->new("$host:$port");
 }
 
 sub closeSocket {
-   my $socket = shift;
-   close ($socket) if defined $socket;
+	my $socket = shift;
+	close($socket) if defined $socket;
 }
 
 sub sendAuth {
-   my $socket = shift;
+	my $socket = shift;
 
-   &readLine ($socket);
-   $socket->send ("<?xml version='1.0'?><auth user='user' host='host'/>\n");
-   my $auth = &xmlin (&readLine ($socket));
-   return ( $auth->{'auth'}->[0]->{'result'});
+	&readLine($socket);
+	$socket->send("<?xml version='1.0'?><auth user='user' host='host'/>\n");
+	my $auth = &xmlin( &readLine($socket) );
+	return ( $auth->{'auth'}->[0]->{'result'} );
 }
 
 sub getRelease {
-   my $socket = shift;
-   my $cmd    = "<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getRelease'/></plugin></plugins>";
+	my $socket = shift;
+	my $cmd =
+"<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getRelease'/></plugin></plugins>";
 
-   $socket->send ($cmd."\n");
-   my $data = &xmlin (&readLine ($socket));
-   return (
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0]
-   );
+	$socket->send( $cmd . "\n" );
+	my $data = &xmlin( &readLine($socket) );
+	return ( $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0] );
 }
 
 sub getLoad {
-   my $socket = shift;
-   my $cmd    = "<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getLoad'/></plugin></plugins>";
+	my $socket = shift;
+	my $cmd =
+"<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getLoad'/></plugin></plugins>";
 
-   $socket->send ($cmd."\n");
-   my $data = &xmlin (&readLine ($socket));
-   return (
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l5'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l10'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l15'}->[0]
-   );
+	$socket->send( $cmd . "\n" );
+	my $data = &xmlin( &readLine($socket) );
+	return (
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l5'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l10'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'l15'}->[0]
+	);
 }
 
 sub getSystemInfo {
-   my $socket = shift;
-   my $cmd    = "<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getSystemInfo'/></plugin></plugins>";
+	my $socket = shift;
+	my $cmd =
+"<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='1' name='getSystemInfo'/></plugin></plugins>";
 
-   $socket->send ($cmd."\n");
-   my $data = &xmlin (&readLine ($socket));
-   return (
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'sysname'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'nodename'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'version'}->[0],
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'machine'}->[0]
-   );
+	$socket->send( $cmd . "\n" );
+	my $data = &xmlin( &readLine($socket) );
+	return (
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'sysname'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'nodename'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'version'}->[0],
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'machine'}->[0]
+	);
 }
 
 sub allMethods {
-   my $socket = shift;
-   my $cmd = "<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='2' name='getRelease'/><task id='3' name='getLoad'/><task id='1' name='getSystemInfo'/></plugin></plugins>";
+	my $socket = shift;
+	my $cmd =
+"<?xml version='1.0'?><plugins><plugin id='1' group='System' name='Info'><task id='2' name='getRelease'/><task id='3' name='getLoad'/><task id='1' name='getSystemInfo'/></plugin></plugins>";
 
-   $socket->send ($cmd."\n");
-   my $data = &xmlin (&readLine ($socket));
-   #print Dumper ($data);
-   return (
-      $data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
-      $data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l5'}->[0],
-      $data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l10'}->[0],
-      $data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l15'}->[0],
-      $data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'sysname'}->[0],
-      $data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'nodename'}->[0],
-      $data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
-      $data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'version'}->[0],
-      $data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'machine'}->[0]
-   );
+	$socket->send( $cmd . "\n" );
+	my $data = &xmlin( &readLine($socket) );
+
+	#print Dumper ($data);
+	return (
+		$data->{'plugins'}->[0]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
+		$data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l5'}->[0],
+		$data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l10'}->[0],
+		$data->{'plugins'}->[1]->{'plugin'}->[0]->{'task'}->[0]->{'l15'}->[0],
+		$data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'sysname'}->[0],
+		$data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'nodename'}->[0],
+		$data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'release'}->[0],
+		$data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'version'}->[0],
+		$data->{'plugins'}->[2]->{'plugin'}->[0]->{'task'}->[0]->{'machine'}->[0]
+	);
 }
 
 sub execMethod {
-   my $method = shift;
-   #my $PORT   = 49150;
-   our @ARGV;
-   my $socket = openSocket ($ARGV[0], $ARGV[1]);
-   my @info;
+	my $method = shift;
 
-   if (!$socket) {
-      print STDERR "Unable to establish connection to $ARGV[0]:$ARGV[1].\n";
-   } else {
-      my $auth = &sendAuth ($socket);
+	#my $PORT   = 49150;
+	our @ARGV;
+	my $socket = openSocket( $ARGV[0], $ARGV[1] );
+	my @info;
 
-      if ($auth != 320) {
-         print STDERR "Authentication failure!\n";
-      } else {
-         if ($method eq "getRelease") {
-            @info = getRelease ($socket);
-         } elsif ($method eq "getSystemInfo") {
-            @info = getSystemInfo ($socket);
-         } elsif ($method eq "getLoad") {
-            @info = getLoad ($socket);
-         } elsif ($method eq "all") {
-            @info = allMethods ($socket);
-         }
-      }
-   }
-   closeSocket ($socket);
+	if ( !$socket ) {
+		print STDERR "Unable to establish connection to $ARGV[0]:$ARGV[1].\n";
+	}
+	else {
+		my $auth = &sendAuth($socket);
 
-   return @info;
+		if ( $auth != 320 ) {
+			print STDERR "Authentication failure!\n";
+		}
+		else {
+			if ( $method eq "getRelease" ) {
+				@info = getRelease($socket);
+			}
+			elsif ( $method eq "getSystemInfo" ) {
+				@info = getSystemInfo($socket);
+			}
+			elsif ( $method eq "getLoad" ) {
+				@info = getLoad($socket);
+			}
+			elsif ( $method eq "all" ) {
+				@info = allMethods($socket);
+			}
+		}
+	}
+	closeSocket($socket);
+
+	return @info;
 }
 
-
 sub xmlin {
-   XMLin (
-      shift,
-      KeyAttr => { },
-      ForceArray => 1,
-      KeepRoot => 1
-      );
+	XMLin(
+		shift,
+		KeyAttr    => {},
+		ForceArray => 1,
+		KeepRoot   => 1
+	);
 }
 
 sub readLine {
-   my $socket = shift;
-   my $char   = "";
-   my $line;
-   while ($char ne "\n") {
-      $socket->read($char,1);
-      $line .= $char;
-   }
-   return $line;
+	my $socket = shift;
+	my $char   = "";
+	my $line;
+	while ( $char ne "\n" ) {
+		$socket->read( $char, 1 );
+		$line .= $char;
+	}
+	return $line;
 }
 
-
-
-
-if (@ARGV < 2) {
-   print "Usage: info.pl hostname port\n";
-   exit ();
+if ( @ARGV < 2 ) {
+	print "Usage: info.pl hostname port\n";
+	exit();
 }
 
 my @info;
 
-if ($ARGV[2] == 0) {
-   @info = execMethod ("getRelease");
-   print "System Release: $info[0]\n";
+if ( $ARGV[2] == 0 ) {
+	@info = execMethod("getRelease");
+	print "System Release: $info[0]\n";
 
-   @info = execMethod ("getSystemInfo");
-   print <<EOF;
+	@info = execMethod("getSystemInfo");
+	print <<EOF;
    System Information:
       System Name: $info[0]
       Node Name: $info[1]
@@ -183,12 +185,12 @@ if ($ARGV[2] == 0) {
       Architecture: $info[4]
 EOF
 
-   @info = execMethod ("getLoad");
-   print "System Load: $info[0], $info[1], $info[2]\n";
+	@info = execMethod("getLoad");
+	print "System Load: $info[0], $info[1], $info[2]\n";
 }
-elsif ($ARGV[2] == 1) {
-   @info = execMethod ("all");
-   print <<EOF;
+elsif ( $ARGV[2] == 1 ) {
+	@info = execMethod("all");
+	print <<EOF;
    System Information:
       System Release: $info[0]
       System Load: $info[1], $info[2], $info[3]

@@ -14,12 +14,15 @@ Urivan Saaib <urivan (at) saaib.net>
 
 =cut
 
-
 use Digest::MD5 qw(md5_hex);
 use XML::Simple;
 
-print "Username: "; my $user = <STDIN>; chomp $user;
-print "Hostname: "; my $host = <STDIN>; chomp $host;
+print "Username: ";
+my $user = <STDIN>;
+chomp $user;
+print "Hostname: ";
+my $host = <STDIN>;
+chomp $host;
 
-my $key = md5_hex ( $user .'@'. $host);
+my $key = md5_hex( $user . '@' . $host );
 print "The key to configure is: [$key]\n";

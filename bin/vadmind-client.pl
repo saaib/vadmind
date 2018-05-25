@@ -1,12 +1,11 @@
 #!/usr/bin/perl -w
-
 #****h* VAdmind/vadmind-client.pl [0.2] ***
 # NAME
 #   vadmind-client.pl -- Communicates with the admserv daemon and sends commands.
 # COPYRIGHT
 #   (c) 2002 Urivan Saaib
 # FUNCTION
-#   Call the VAdmind daemon through a socket connection and sends 
+#   Call the VAdmind daemon through a socket connection and sends
 #   the header (authentication) and the body (tasks requested to the server)
 # AUTHOR
 #    Urivan Saaib <urivan (at) saaib.net>
@@ -47,48 +46,48 @@ use Socket;
 # SOURCE
 #
 sub send2server {
-   my ($IP, $PORT, $HEADER, $BODY) = @_ if @_;
+	my ( $IP, $PORT, $HEADER, $BODY ) = @_ if @_;
 
-   my ($remote,$port,$iaddr,$paddr,$proto);
+	my ( $remote, $port, $iaddr, $paddr, $proto );
 
-   $remote = shift || '$IP';
-   $port = $PORT;
-   if ($port =~ /\D/) {
-      $port = getservbyname($port,'tcp')
-   }
-   die "No port" unless $port;
-   $iaddr = inet_aton($remote) || die "No host : $remote\n";
-   $paddr = sockaddr_in($port,$iaddr);
-   $proto = getprotobyname('tcp');
-   socket(SOCK,PF_INET,SOCK_STREAM,$proto) || die "Socket: $!\n";
+	$remote = shift || '$IP';
+	$port = $PORT;
+	if ( $port =~ /\D/ ) {
+		$port = getservbyname( $port, 'tcp' );
+	}
+	die "No port" unless $port;
+	$iaddr = inet_aton($remote) || die "No host : $remote\n";
+	$paddr = sockaddr_in( $port, $iaddr );
+	$proto = getprotobyname('tcp');
+	socket( SOCK, PF_INET, SOCK_STREAM, $proto ) || die "Socket: $!\n";
 
-   print STDOUT "Connecting to ... $IP\n";
-   connect(SOCK, $paddr) || die "Connecet: $!\n";
-   select (SOCK); $| = 1;
+	print STDOUT "Connecting to ... $IP\n";
+	connect( SOCK, $paddr ) || die "Connecet: $!\n";
+	select(SOCK);
+	$| = 1;
 
-   # Read the Welcome Message from Server
-   $RESULT[0] = <SOCK>;
+	# Read the Welcome Message from Server
+	$RESULT[0] = <SOCK>;
 
-   print STDOUT $RESULT[0];
-   if ($RESULT[0] =~ /Virtual Administrator Server Daemon/) {
-      print STDOUT "Sending authentication...\n";
-      print SOCK $HEADER . "\n";
-      print STDOUT "Reading authtentication response...\n";
-      $RESULT[0] = <SOCK>;
-      print STDOUT "Sending request...\n";
-      print SOCK $BODY . "\n";
-      print STDOUT "Reading request results...\n";
-      $RESULT[1] = <SOCK>;
-      chomp $RESULT[0];
-      chomp $RESULT[1];
-   }
-   else {
-      print STDOUT "The server connected to did not provide a valid header.\n";
-   }
-   close (SOCK);
-   return @RESULT;
+	print STDOUT $RESULT[0];
+	if ( $RESULT[0] =~ /Virtual Administrator Server Daemon/ ) {
+		print STDOUT "Sending authentication...\n";
+		print SOCK $HEADER . "\n";
+		print STDOUT "Reading authtentication response...\n";
+		$RESULT[0] = <SOCK>;
+		print STDOUT "Sending request...\n";
+		print SOCK $BODY . "\n";
+		print STDOUT "Reading request results...\n";
+		$RESULT[1] = <SOCK>;
+		chomp $RESULT[0];
+		chomp $RESULT[1];
+	}
+	else {
+		print STDOUT "The server connected to did not provide a valid header.\n";
+	}
+	close(SOCK);
+	return @RESULT;
 }
-
 
 ###############################################
 # MAIN CODE
@@ -100,25 +99,26 @@ $| = 1;
 die "Usage: $0 IP HEADER BODY" unless $ARGV[2];
 
 # Read the HEADER from the 2nd argument file.
-open (AUTH,"$ARGV[1]");
+open( AUTH, "$ARGV[1]" );
 $HEADER = <AUTH>;
-close (AUTH);
+close(AUTH);
+
 # We strip new lines from the string.
 $HEADER =~ s/\n//g;
 
 # Read the BODY from the 3rd argument file.
-open (BODY,"$ARGV[2]");
+open( BODY, "$ARGV[2]" );
 $BODY = <BODY>;
-close (BODY);
+close(BODY);
+
 # We strip new lines from the string.
 $BODY =~ s/\n//g;
-
 
 my $IP = $ARGV[0];
 
 my $PORT = 1888;
 
-$RESULT = &send2server($IP, $PORT, $HEADER, $BODY);
+$RESULT = &send2server( $IP, $PORT, $HEADER, $BODY );
 
 print STDOUT "Header: $RESULT[0]\n";
 print STDOUT "Body  : $RESULT[1]\n";
